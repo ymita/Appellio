@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Appellio.Models.IWord>
+
+@{
+    ViewData["Title"] = "Words";
+}
+
+<h1>Words</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Spelling)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Meaning)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Text)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AlbumId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Spelling)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Meaning)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AlbumId)
+            </td>
+            <td>
+                @Html.ActionLink("Edit word", "Edit", "Words", new { id= item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
