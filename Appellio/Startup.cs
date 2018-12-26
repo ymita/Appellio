@@ -14,6 +14,7 @@ using Appellio.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Appellio.Repositories;
+using Microsoft.Data.Sqlite;
 
 namespace Appellio
 {
@@ -36,9 +37,15 @@ namespace Appellio
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            string relativePath = @"Database\data.db";
+            string currentPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
+            string absolutePath = System.IO.Path.Combine(currentPath, relativePath);
+            absolutePath = absolutePath.Remove(0, 6);//this code is written to remove file word from absolute path
+            var connectionString = new SqliteConnectionStringBuilder { DataSource = absolutePath }.ToString();
+
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlite(new SqliteConnection(connectionString)));
+
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
