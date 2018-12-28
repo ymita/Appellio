@@ -3,7 +3,14 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+<style>
+    .btn-size {
+        width: 100px;
+    }
+    .edit-label {
+        padding: 1.5vw;
+    }
+</style>
 <h1>Index</h1>
 
 <form asp-action="Create" asp-controller="Albums" method="post">
@@ -16,10 +23,13 @@
             @*<th>
                     @Html.DisplayNameFor(model => model.Id)
                 </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
+            <th class="w-75">
+                Album @Html.DisplayNameFor(model => model.Title)
             </th>
-            <th></th>
+            <th class="w-25">
+                <button id="editButton" class="btn btn-info btn-size" onclick="toggleEdit(this)">Edit Album</button>
+                @*<input id="editButton" type="button" value="edit album" class="btn btn-info" />*@
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -34,9 +44,38 @@
                     @Html.ActionLink(item.Title, "Index", new { id = item.Id })
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class="edit-label", @style = "display:none" })
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<script>
+    function toggleEdit(button) {
+        console.log(button);
+
+        const editLabels = document.querySelectorAll(".edit-label")
+
+        const isInEdit = button.classList.contains("btn-info");
+        if (isInEdit) {
+            button.classList.remove("btn-info");
+            button.classList.add("btn-secondary");
+
+            editLabels.forEach((label) => {
+                label.style.display = "";
+            });
+
+            button.textContent = "End Edit";
+        }
+        else {
+            button.classList.remove("btn-secondary");
+            button.classList.add("btn-info");
+
+            editLabels.forEach((label) => {
+                label.style.display = "none";
+            });
+            button.textContent = "Edit Album";
+        }
+    }
+</script>
