@@ -2,20 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <UserSecretsId>aspnet-Appellio-66DCF085-34AB-4125-9320-ADC86D512268</UserSecretsId>
+    <UserSecretsId>aspnet-Appellio-2437B914-5A49-4229-9B70-F46338CA52DA</UserSecretsId>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Views\Playlist\**" />
-    <Content Remove="Views\Playlist\**" />
-    <EmbeddedResource Remove="Views\Playlist\**" />
-    <None Remove="Views\Playlist\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Controllers\PlaylistController.cs" />
-  </ItemGroup>
 
 
   <ItemGroup>
@@ -23,6 +12,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Database\" />
   </ItemGroup>
 
 

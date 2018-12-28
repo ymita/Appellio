@@ -13,8 +13,11 @@ using Microsoft.EntityFrameworkCore;
 using Appellio.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Appellio.Repositories;
 using Microsoft.Data.Sqlite;
+using Appellio.Repositories;
+using Appellio.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace Appellio
 {
@@ -37,6 +40,9 @@ namespace Appellio
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
             string relativePath = @"Database\data.db";
             string currentPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
             string absolutePath = System.IO.Path.Combine(currentPath, relativePath);
@@ -50,11 +56,18 @@ namespace Appellio
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            //Authorization by default
+            services.AddMvc(o => {
+                var policy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+                o.Filters.Add(new AuthorizeFilter(policy));
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // DI configuration
-            services.AddScoped<IAlbumRepository, AlbumRepository>();
-            services.AddScoped<IWordRepository, WordRepository>();
+            services.AddScoped<IRepository, SqliteRepository>();
+            services.AddScoped<IBusinessModelContext, BusinessModelContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

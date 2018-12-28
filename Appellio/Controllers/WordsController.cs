@@ -10,29 +10,49 @@ namespace Appellio.Controllers
 {
     public class WordsController : Controller
     {
-        private readonly IWordRepository _wordRepository;
-
-        public WordsController(IWordRepository wordRepository)
+        private readonly IRepository _repository;
+        public WordsController(IRepository repository)
         {
-            _wordRepository = wordRepository;
+            _repository = repository;
         }
+
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public IActionResult Add()
         {
-            IWord word = _wordRepository.GetWordById(id.Value);
+            return View();
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult Add(string spelling, string meaning, string text, int albumId)
+        {
+            // Save to DbContext
+            _repository.AddWord(spelling, meaning, text, albumId);
+            //_repository.SaveWord(Id, Spelling, Meaning, Text, AlbumId);
+            // And then, return to the album the word is belonged to.
+            return RedirectToAction("Index", "Albums", new { id = albumId });
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            IWord word = _repository.GetWordById(id);
             return View(word);
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Edit(int Id, string Spelling, string Meaning, string Text, int AlbumId)
+        public IActionResult Edit(int id, string spelling, string meaning, string text, int albumId)
         {
-            return RedirectToAction("Index", "Albums", new { id = Id });
+            // Save to DbContext
+            _repository.UpdateWord(id, spelling, meaning, text, albumId);
+            // And then, return to the album the word is belonged to.
+            return RedirectToAction("Index", "Albums", new { id = albumId });
         }
     }
 }

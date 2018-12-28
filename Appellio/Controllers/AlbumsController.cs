@@ -11,25 +11,43 @@ namespace Appellio.Controllers
     [Route("Albums")]
     public class AlbumsController : Controller
     {
-        private readonly IAlbumRepository _albumRepository;
-        private readonly IWordRepository _wordRepository;
+        private readonly IRepository _repository;
 
-        public AlbumsController(IAlbumRepository albumRepository, IWordRepository wordRepository)
+        public AlbumsController(IRepository repository)
         {
-            _albumRepository = albumRepository;
-            _wordRepository = wordRepository;
+            _repository = repository;
         }
+
         [Route("")]
         public IActionResult Index()
         {
-            return View(_albumRepository.GetAll());
+            var albums = _repository.GetAlbums();
+            return View(albums);
         }
 
         [Route("{id}")]
         public IActionResult Index(int id)
         {
-            var words = _wordRepository.GetWordsByAlbumId(id);
+            ViewData["AlbumTitle"] = _repository.GetAlbumById(id).Title;
+            var words = _repository.GetWordsByAlbumId(id);
             return View("Words", words);
+        }
+
+        [HttpGet]
+        [Route("Edit/{id}")]
+        public IActionResult Edit(int id)
+        {
+            IAlbum album = _repository.GetAlbumById(id);
+            return View(album);
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        [Route("Edit/{id}")]
+        public IActionResult Edit(int id, string title)
+        {
+            _repository.UpdateAlbum(id, title);
+            return RedirectToAction("Index");
         }
     }
 }
