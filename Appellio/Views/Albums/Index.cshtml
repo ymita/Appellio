@@ -20,15 +20,11 @@
 <table class="table">
     <thead>
         <tr>
-            @*<th>
-                    @Html.DisplayNameFor(model => model.Id)
-                </th>*@
             <th class="w-75">
                 Album @Html.DisplayNameFor(model => model.Title)
             </th>
             <th class="w-25">
                 <button id="editButton" class="btn btn-info btn-size" onclick="toggleEdit(this)">Edit</button>
-                @*<input id="editButton" type="button" value="edit album" class="btn btn-info" />*@
             </th>
         </tr>
     </thead>
@@ -36,11 +32,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>*@
                 <td>
-                    @*@Html.DisplayFor(modelItem => item.Title)*@
                     @Html.ActionLink(item.Title, "Index", new { id = item.Id })
                 </td>
                 <td>
