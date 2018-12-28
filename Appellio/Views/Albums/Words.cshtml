@@ -6,9 +6,11 @@
 
     <h1>@ViewData["AlbumTitle"]</h1>
 
-    <p>
-        @Html.ActionLink("Add New", "Add", "Words", new { id = Context.Request.Path.Value.Split('/').Last() })
-    </p>
+    <form asp-action="Create" asp-controller="Words" method="post">
+        <input name="albumId" hidden value="@Model.First().AlbumId" />
+        <input type="submit" value="Create New" class="btn btn-primary" />
+    </form>
+
     <table class="table">
         <thead>
             <tr>

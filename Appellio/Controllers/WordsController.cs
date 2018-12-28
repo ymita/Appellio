@@ -21,20 +21,22 @@ namespace Appellio.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult Add()
+        [HttpPost]
+        public IActionResult Create(int albumId)
         {
-            return View();
+            TempData["AlbumId"] = albumId;
+            return View("Create");
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Add(string spelling, string meaning, string text, int albumId)
+        public IActionResult CreateData(string spelling, string meaning, string text, int albumId)
         {
             // Save to DbContext
-            _repository.AddWord(spelling, meaning, text, albumId);
-            //_repository.SaveWord(Id, Spelling, Meaning, Text, AlbumId);
+            //_repository.CreateWord(word.Spelling, word.Meaning, word.Text, word.AlbumId);
+            _repository.CreateWord(spelling, meaning, text, albumId);
             // And then, return to the album the word is belonged to.
+            //return RedirectToAction("Index", "Albums", new { id = word.AlbumId });
             return RedirectToAction("Index", "Albums", new { id = albumId });
         }
 

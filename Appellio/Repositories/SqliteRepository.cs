@@ -19,7 +19,22 @@ namespace Appellio.Repositories
             return _context.Words.Find(id);
         }
 
-        public void AddWord(string spelling, string meaning, string text, int albumId)
+        //public void AddWord(string spelling, string meaning, string text, int albumId)
+        //{
+        //    var newWord = Activator.CreateInstance<Word>();
+        //    int currentMaxId = _context.Words.Last().Id;
+
+        //    newWord.Id = currentMaxId + 1;
+        //    newWord.Spelling = spelling;
+        //    newWord.Meaning = meaning;
+        //    newWord.Text = text;
+        //    newWord.AlbumId = albumId;
+
+        //    _context.Words.Add(newWord);
+        //    (_context as BusinessModelContext).SaveChanges();
+        //}
+
+        public void CreateWord(string spelling, string meaning, string text, int albumId)
         {
             var newWord = Activator.CreateInstance<Word>();
             int currentMaxId = _context.Words.Last().Id;
