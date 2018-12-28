@@ -23,5 +23,7 @@ namespace Appellio.Repositories
         IAlbum GetAlbumById(int id);
 
         void UpdateAlbum(int id, string title);
+
+        void CreateAlbum(string title);
     }
 }

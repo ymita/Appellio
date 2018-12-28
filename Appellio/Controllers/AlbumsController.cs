@@ -33,6 +33,22 @@ namespace Appellio.Controllers
             return View("Words", words);
         }
 
+        [HttpPost]
+        [Route("/Create")]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        [Route("/CreateData")]
+        public IActionResult CreateData(string title)
+        {
+            _repository.CreateAlbum(title);
+            return RedirectToAction("Index");
+        }
+
         [HttpGet]
         [Route("Edit/{id}")]
         public IActionResult Edit(int id)

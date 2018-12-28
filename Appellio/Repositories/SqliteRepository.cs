@@ -89,5 +89,12 @@ namespace Appellio.Repositories
             _context.Albums.Find(id).Title = title;
             (_context as BusinessModelContext).SaveChanges();
         }
+
+        public void CreateAlbum(string title)
+        {
+            int currentMaxId = _context.Albums.Last().Id;
+            _context.Albums.Add(new Album { Id = currentMaxId + 1, Title = title });
+            (_context as BusinessModelContext).SaveChanges();
+        }
     }
 }

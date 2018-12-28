@@ -6,15 +6,16 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<form asp-action="Create" asp-controller="Albums" method="post">
+    <input type="submit" value="Create New" class="btn btn-primary" />
+</form>
+
 <table class="table">
     <thead>
         <tr>
             @*<th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>*@
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
@@ -22,19 +23,20 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>*@
-            <td>
-                @*@Html.DisplayFor(modelItem => item.Title)*@
-                @Html.ActionLink(item.Title, "Index", new { id = item.Id })
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>*@
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.Title)*@
+                    @Html.ActionLink(item.Title, "Index", new { id = item.Id })
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

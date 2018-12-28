@@ -7,7 +7,8 @@
     <h1>@ViewData["AlbumTitle"]</h1>
 
     <form asp-action="Create" asp-controller="Words" method="post">
-        <input name="albumId" hidden value="@Model.First().AlbumId" />
+        @*<input name="albumId" hidden value="@Model.First().AlbumId" />*@
+        <input name="albumId" hidden value="@Context.Request.Path.Value.Split("/").Last()" />
         <input type="submit" value="Create New" class="btn btn-primary" />
     </form>
 
