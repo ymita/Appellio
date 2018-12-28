@@ -33,10 +33,8 @@ namespace Appellio.Controllers
         public IActionResult CreateData(string spelling, string meaning, string text, int albumId)
         {
             // Save to DbContext
-            //_repository.CreateWord(word.Spelling, word.Meaning, word.Text, word.AlbumId);
             _repository.CreateWord(spelling, meaning, text, albumId);
             // And then, return to the album the word is belonged to.
-            //return RedirectToAction("Index", "Albums", new { id = word.AlbumId });
             return RedirectToAction("Index", "Albums", new { id = albumId });
         }
 
