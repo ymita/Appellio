@@ -27,7 +27,7 @@
                 Album @Html.DisplayNameFor(model => model.Title)
             </th>
             <th class="w-25">
-                <button id="editButton" class="btn btn-info btn-size" onclick="toggleEdit(this)">Edit Album</button>
+                <button id="editButton" class="btn btn-info btn-size" onclick="toggleEdit(this)">Edit</button>
                 @*<input id="editButton" type="button" value="edit album" class="btn btn-info" />*@
             </th>
         </tr>
@@ -66,7 +66,7 @@
                 label.style.display = "";
             });
 
-            button.textContent = "End Edit";
+            button.textContent = "End";
         }
         else {
             button.classList.remove("btn-secondary");
@@ -75,7 +75,7 @@
             editLabels.forEach((label) => {
                 label.style.display = "none";
             });
-            button.textContent = "Edit Album";
+            button.textContent = "Edit";
         }
     }
 </script>

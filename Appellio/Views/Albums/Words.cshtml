@@ -3,7 +3,25 @@
     @{
     ViewData["Title"] = "Words";
     }
+    <style>
+        .w-10 {
+            width: 10%;
+        }
+        .w-20 {
+            width: 20%;
+        }
+        /*.w-40 {
+            width: 40%;
+        }*/
 
+        .btn-size {
+            width: 50px;
+        }
+
+        .edit-label {
+            padding: 0.5vw;
+        }
+    </style>
     <h1>@ViewData["AlbumTitle"]</h1>
 
     <form asp-action="Create" asp-controller="Words" method="post">
@@ -15,16 +33,18 @@
     <table class="table">
         <thead>
             <tr>
-                <th>
+                <th class="w-20">
                     @Html.DisplayNameFor(model => model.Spelling)
                 </th>
-                <th>
+                <th class="w-20">
                     @Html.DisplayNameFor(model => model.Meaning)
                 </th>
-                <th>
+                <th class="w-50">
                     @Html.DisplayNameFor(model => model.Text)
                 </th>
-                <th></th>
+                <th class="w-10">
+                    <button id="editButton" class="btn btn-info" onclick="toggleEdit(this)">Edit</button>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -40,7 +60,7 @@
                     @Html.DisplayFor(modelItem => item.Text)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", "Words" , new { id=item.Id })
+                    @Html.ActionLink("Edit", "Edit", "Words" , new { id=item.Id }, new { @class = "edit-label", @style = "display:none" })
                 </td>
             </tr>
 }
@@ -49,3 +69,32 @@
     <div>
         <a href="/Albums">Back to List</a>
     </div>
+
+    <script>
+        function toggleEdit(button) {
+            console.log(button);
+
+            const editLabels = document.querySelectorAll(".edit-label")
+
+            const isInEdit = button.classList.contains("btn-info");
+            if (isInEdit) {
+                button.classList.remove("btn-info");
+                button.classList.add("btn-secondary");
+
+                editLabels.forEach((label) => {
+                    label.style.display = "";
+                });
+
+                button.textContent = "End";
+            }
+            else {
+                button.classList.remove("btn-secondary");
+                button.classList.add("btn-info");
+
+                editLabels.forEach((label) => {
+                    label.style.display = "none";
+                });
+                button.textContent = "Edit";
+            }
+        }
+    </script>
