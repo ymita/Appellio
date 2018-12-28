@@ -20,7 +20,7 @@
             padding: 0.5vw;
         }
     </style>
-    <h1>@ViewData["AlbumTitle"]</h1>
+    <h2>@ViewData["AlbumTitle"]</h2>
 
     <form asp-action="Create" asp-controller="Words" method="post">
         <input name="albumId" hidden value="@Context.Request.Path.Value.Split("/").Last()" />
