@@ -28,7 +28,7 @@ namespace Appellio.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Email は必須です。")]
             [EmailAddress]
             public string Email { get; set; }
         }

@@ -36,11 +36,11 @@ namespace Appellio.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Email は必須です。")]
             [EmailAddress]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Password は必須です。")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
