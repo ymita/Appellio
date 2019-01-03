@@ -44,7 +44,7 @@ namespace Appellio.Areas.Identity.Pages.Account
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "ログイン情報を記憶する")]
             public bool RememberMe { get; set; }
         }
 
