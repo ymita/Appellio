@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Appellio.Models;
 using Appellio.Repositories;
@@ -18,10 +19,19 @@ namespace Appellio.Controllers
             _repository = repository;
         }
 
+        private string getOwnerInfo()
+        {
+            string typeStr = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
+            Claim claim = User.Claims.Where(x => x.Type == typeStr).First();
+            return claim.Value;
+        }
+
         [Route("")]
         public IActionResult Index()
         {
-            var albums = _repository.GetAlbums();
+            string owner = getOwnerInfo();
+            var albums = _repository.GetAlbums(owner);
+
             return View(albums);
         }
 
@@ -45,7 +55,8 @@ namespace Appellio.Controllers
         [Route("/CreateData")]
         public IActionResult CreateData(string title)
         {
-            _repository.CreateAlbum(title);
+            string owner = getOwnerInfo();
+            _repository.CreateAlbum(title, owner);
             return RedirectToAction("Index");
         }
 

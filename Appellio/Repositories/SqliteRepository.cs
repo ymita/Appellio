@@ -54,9 +54,9 @@ namespace Appellio.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<IAlbum> GetAlbums()
+        public IEnumerable<IAlbum> GetAlbums(string claimValue)
         {
-            return _context.Albums.ToList();
+            return _context.Albums.Where(x => x.Owner.Equals(claimValue)).ToList();
         }
 
         public IEnumerable<IWord> GetWordsByAlbumId(int albumId)
@@ -75,10 +75,10 @@ namespace Appellio.Repositories
             (_context as BusinessModelContext).SaveChanges();
         }
 
-        public void CreateAlbum(string title)
+        public void CreateAlbum(string title, string owner)
         {
             int currentMaxId = _context.Albums.Last().Id;
-            _context.Albums.Add(new Album { Id = currentMaxId + 1, Title = title });
+            _context.Albums.Add(new Album { Id = currentMaxId + 1, Title = title, Owner = owner });
             (_context as BusinessModelContext).SaveChanges();
         }
     }

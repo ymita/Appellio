@@ -16,7 +16,7 @@ namespace Appellio.Repositories
 
         void CreateWord(string spelling, string meaning, string text, int albumId);
 
-        IEnumerable<IAlbum> GetAlbums();
+        IEnumerable<IAlbum> GetAlbums(string claimValue);
 
         IEnumerable<IWord> GetWordsByAlbumId(int albumId);
 
@@ -24,6 +24,6 @@ namespace Appellio.Repositories
 
         void UpdateAlbum(int id, string title);
 
-        void CreateAlbum(string title);
+        void CreateAlbum(string title, string owner);
     }
 }

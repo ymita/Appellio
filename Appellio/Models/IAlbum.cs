@@ -9,5 +9,6 @@ namespace Appellio.Models
     {
         int Id { get; set; }
         string Title { get; set; }
+        string Owner { get; set; }
     }
 }
