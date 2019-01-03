@@ -37,7 +37,7 @@ namespace Appellio.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required(ErrorMessage = "Email は必須です。")]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "Email は無効な形式です。")]
             public string Email { get; set; }
 
             [Required(ErrorMessage = "Password は必須です。")]
@@ -90,7 +90,7 @@ namespace Appellio.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "無効なログイン試行です。");
                     return Page();
                 }
             }

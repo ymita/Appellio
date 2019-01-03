@@ -18,6 +18,7 @@ using Appellio.Repositories;
 using Appellio.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Appellio.Areas.Identity.Localization;
 
 namespace Appellio
 {
@@ -54,8 +55,8 @@ namespace Appellio
 
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddErrorDescriber<IdentityErrorDescriberJa>();
 
             //Authorization by default
             services.AddMvc(o => {
