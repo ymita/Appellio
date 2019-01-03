@@ -54,9 +54,9 @@ namespace Appellio.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<IAlbum> GetAlbums(string claimValue)
+        public IEnumerable<IAlbum> GetAlbums(string owner)
         {
-            return _context.Albums.Where(x => x.Owner.Equals(claimValue)).ToList();
+            return _context.Albums.Where(x => x.Owner.Equals(owner)).ToList();
         }
 
         public IEnumerable<IWord> GetWordsByAlbumId(int albumId)
