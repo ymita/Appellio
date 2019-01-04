@@ -35,6 +35,11 @@
     .btn-group, .btn-group-vertical {
         float: right;
     }
+
+    .editIcon {
+        float: right;
+        margin-right: 10px;
+    }
 </style>
 
 <h2>@ViewData["AlbumTitle"]</h2>
@@ -64,18 +69,18 @@
             </th>
             <th class="w-10">
                 <div class="btn-group dropleft">
-                    <button type="button" class="btn  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <svg height="16" class="octicon octicon-kebab-vertical" viewBox="0 0 3 16" version="1.1" width="6" aria-hidden="true">
                             <path fill-rule="evenodd" d="M0 2.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0zm0 5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0zM1.5 14a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>
                         </svg>
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#" onclick="toggleEdit(this)">Edit Words</a>
+                        <a class="dropdown-item" href="#" onclick="toggleEdit(this)">単語の編集</a>
                         <a class="dropdown-item" href="javascript:document.getElementById('createNewForm').submit();">
                             <form id="createNewForm" asp-action="Create" asp-controller="Words" method="post">
                                 <input name="albumId" hidden value="@Context.Request.Path.Value.Split("/").Last()" />
                             </form>
-                            Create New
+                            単語の作成
                         </a>
                     </div>
                 </div>
@@ -97,7 +102,7 @@
                 </td>
                 <td>
                     <a href="/Words/Edit/@item.Id">
-                        <svg height="16" class="octicon octicon-pencil" style="display: none" viewBox="0 0 14 16" version="1.1" width="14" aria-hidden="true"><path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"></path></svg>
+                        <svg height="16" class="octicon octicon-pencil editIcon" style="display: none" viewBox="0 0 14 16" version="1.1" width="14" aria-hidden="true"><path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"></path></svg>
                     </a>
                 </td>
             </tr>
