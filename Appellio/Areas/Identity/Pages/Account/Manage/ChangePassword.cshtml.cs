@@ -45,7 +45,7 @@ namespace Appellio.Areas.Identity.Pages.Account.Manage
             public string NewPassword { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "(確認)新しいパスワード")]
+            [Display(Name = "新しいパスワード (確認用)")]
             [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
         }
