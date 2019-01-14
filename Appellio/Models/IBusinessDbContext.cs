@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Appellio.Models
 {
-    public interface IBusinessModelContext
+    public interface IBusinessDbContext
     {
-        DbSet<Word> Words { get; set; }
         DbSet<Album> Albums { get; set; }
+        DbSet<Word> Words { get; set; }
+        int SaveChanges();
     }
 }

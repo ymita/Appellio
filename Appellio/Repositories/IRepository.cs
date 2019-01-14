@@ -8,22 +8,16 @@ namespace Appellio.Repositories
 {
     public interface IRepository
     {
-        IEnumerable<IWord> GetWords();
+        IEnumerable<IAlbum> getAlbums();
+        IAlbum getAlbumById(int id);
+        void updateAlbum(int id, string title);
+        void deleteAlbumById(int id);
+        void createAlbum(string title, string owner);
 
-        IWord GetWordById(int id);
-
-        void UpdateWord(int id, string spelling, string meaning, string text, int albumId);
-
-        void CreateWord(string spelling, string meaning, string text, int albumId);
-
-        IEnumerable<IAlbum> GetAlbums(string claimValue);
-
-        IEnumerable<IWord> GetWordsByAlbumId(int albumId);
-
-        IAlbum GetAlbumById(int id);
-
-        void UpdateAlbum(int id, string title);
-
-        void CreateAlbum(string title, string owner);
+        IEnumerable<IWord> getWordsByAlbumId(int albumId);
+        IWord getWordById (int id);
+        void updateWord(int id, Word word);
+        void deleteWordById(int id);
+        void createWord(string spelling, string meaning, string text, int albumId);
     }
 }

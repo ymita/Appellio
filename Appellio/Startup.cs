@@ -13,12 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Appellio.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Data.Sqlite;
-using Appellio.Repositories;
 using Appellio.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Appellio.Areas.Identity.Localization;
+using Appellio.Repositories;
 
 namespace Appellio
 {
@@ -41,34 +37,24 @@ namespace Appellio
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString("DefaultConnection")));
-            string relativePath = @"Database\data.db";
-            string currentPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
-            string absolutePath = System.IO.Path.Combine(currentPath, relativePath);
-            absolutePath = absolutePath.Remove(0, 6);//this code is written to remove file word from absolute path
-            var connectionString = new SqliteConnectionStringBuilder { DataSource = absolutePath }.ToString();
-
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(new SqliteConnection(connectionString)));
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<BusinessDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddErrorDescriber<IdentityErrorDescriberJa>();
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            //Authorization by default
-            services.AddMvc(o => {
-                var policy = new AuthorizationPolicyBuilder()
-                .RequireAuthenticatedUser()
-                .Build();
-                o.Filters.Add(new AuthorizeFilter(policy));
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
 
             // DI configuration
-            services.AddScoped<IRepository, SqliteRepository>();
-            services.AddScoped<IBusinessModelContext, BusinessModelContext>();
+            services.AddScoped<IRepository, AzureRepository>();
+            services.AddScoped<IBusinessDbContext, BusinessDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,6 +80,16 @@ namespace Appellio
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "albums",
+                    defaults: new { controller = "Albums", action = "Words" },
+                    template: "{controller}/{id:int}");
+
+                //routes.MapRoute(
+                //    name: "words",
+                //    defaults: new { controller = "Words", action = "Details" },
+                //    template: "{controller}/{id:int}");
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

@@ -4,10 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Appellio.Models;
 using Appellio.Repositories;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Appellio.Controllers
 {
+    [Authorize]
     public class WordsController : Controller
     {
         private readonly IRepository _repository;
@@ -16,43 +19,107 @@ namespace Appellio.Controllers
             _repository = repository;
         }
 
-        public IActionResult Index()
+        // GET: Words
+        public ActionResult Index()
+        {
+            return RedirectToAction("Index", "Albums");
+            //return View();
+        }
+
+        //public ActionResult WordsByAlbumId(int id)
+        //{
+        //    var words = _repository.getWordsByAlbumId(id);
+        //    return View(words);
+        //}
+
+        // GET: Words/Details/5
+        public ActionResult Details(int id)
+        {
+            var word = _repository.getWordById(id);
+            return View(word);
+        }
+
+        // GET: Words/Create
+        public ActionResult Create()
         {
             return View();
         }
 
+        // POST: Words/Create
         [HttpPost]
-        public IActionResult Create(int albumId)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(IFormCollection collection)
         {
-            TempData["AlbumId"] = albumId;
-            return View("Create");
+            try
+            {
+                // TODO: Add insert logic here
+                string spelling = collection["Spelling"][0];
+                string meaning = collection["Meaning"][0];
+                string text = collection["Text"][0];
+                int albumId = int.Parse(collection["AlbumId"][0]);
+
+                _repository.createWord(spelling, meaning, text, albumId);
+
+                return RedirectToAction("Words", "Albums", new { id = albumId });
+                //return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
         }
 
-        [HttpPost]
-        [AutoValidateAntiforgeryToken]
-        public IActionResult CreateData(string spelling, string meaning, string text, int albumId)
+        // GET: Words/Edit/5
+        public ActionResult Edit(int id)
         {
-            // Save to DbContext
-            _repository.CreateWord(spelling, meaning, text, albumId);
-            // And then, return to the album the word is belonged to.
-            return RedirectToAction("Index", "Albums", new { id = albumId });
-        }
-
-        [HttpGet]
-        public IActionResult Edit(int id)
-        {
-            IWord word = _repository.GetWordById(id);
+            var word = _repository.getWordById(id);
             return View(word);
         }
 
+        // POST: Words/Edit/5
         [HttpPost]
-        [AutoValidateAntiforgeryToken]
-        public IActionResult Edit(int id, string spelling, string meaning, string text, int albumId)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, Word word /*IFormCollection collection*/)
         {
-            // Save to DbContext
-            _repository.UpdateWord(id, spelling, meaning, text, albumId);
-            // And then, return to the album the word is belonged to.
-            return RedirectToAction("Index", "Albums", new { id = albumId });
+            try
+            {
+                // TODO: Add update logic here
+                _repository.updateWord(id, word);
+
+                return RedirectToAction("Details", "Albums", new { id = word.AlbumId });
+                //return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Words/Delete/5
+        public ActionResult Delete(int id)
+        {
+            var word = _repository.getWordById(id);
+
+            return View(word);
+        }
+
+        // POST: Words/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, IFormCollection collection)
+        {
+            try
+            {
+                int albumId = int.Parse(collection["AlbumId"][0]);
+                // TODO: Add delete logic here
+                _repository.deleteWordById(id);
+                return RedirectToAction("Details", "Albums", new { id = albumId });
+                //return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
         }
     }
 }

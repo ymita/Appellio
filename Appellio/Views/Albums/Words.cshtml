@@ -3,88 +3,29 @@
 @{
     ViewData["Title"] = "Words";
 }
-<style>
-    .w-10 {
-        width: 10%;
-    }
 
-    .w-20 {
-        width: 20%;
-    }
+<h1>Words</h1>
 
-    .btn-size {
-        width: 50px;
-    }
+<p>
+    <a asp-action="Create" asp-controller="Words">Create New</a>
+</p>
 
-    .edit-label {
-        padding: 0.5vw;
-    }
+<button id="start">再生</button>
+<button id="pause">停止</button>
 
-    .button-cotainer{ 
-        margin: 10px 5px 10px 5px;
-    }
-
-    svg.octicon.octicon-mute, svg.octicon.octicon-unmute {
-        margin-top: -3px;
-    }
-
-    .dropleft .dropdown-toggle::before {
-        display: none;
-    }
-
-    .btn-group, .btn-group-vertical {
-        float: right;
-    }
-
-    .editIcon {
-        float: right;
-        margin-right: 10px;
-    }
-</style>
-
-<h2>@ViewData["AlbumTitle"]</h2>
-
-<div class="button-cotainer">
-    <button id="startButton" class="btn btn-outline-info">
-        <svg height="16" class="octicon octicon-unmute" viewBox="0 0 16 16" version="1.1" width="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 8.02c0 1.09-.45 2.09-1.17 2.83l-.67-.67c.55-.56.89-1.31.89-2.16 0-.85-.34-1.61-.89-2.16l.67-.67A3.99 3.99 0 0 1 12 8.02zM7.72 2.28L4 6H2c-.55 0-1 .45-1 1v2c0 .55.45 1 1 1h2l3.72 3.72c.47.47 1.28.14 1.28-.53V2.81c0-.67-.81-1-1.28-.53zm5.94.08l-.67.67a6.996 6.996 0 0 1 2.06 4.98c0 1.94-.78 3.7-2.06 4.98l.67.67A7.973 7.973 0 0 0 16 8c0-2.22-.89-4.22-2.34-5.66v.02zm-1.41 1.41l-.69.67a5.05 5.05 0 0 1 1.48 3.58c0 1.39-.56 2.66-1.48 3.56l.69.67A5.971 5.971 0 0 0 14 8.02c0-1.65-.67-3.16-1.75-4.25z"></path></svg>
-        開始
-    </button>
-    <button id="endButton" class="btn btn-outline-secondary">
-        <svg height="16" class="octicon octicon-mute" viewBox="0 0 16 16" version="1.1" width="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.81v10.38c0 .67-.81 1-1.28.53L3 10H1c-.55 0-1-.45-1-1V7c0-.55.45-1 1-1h2l3.72-3.72C7.19 1.81 8 2.14 8 2.81zm7.53 3.22l-1.06-1.06-1.97 1.97-1.97-1.97-1.06 1.06L11.44 8 9.47 9.97l1.06 1.06 1.97-1.97 1.97 1.97 1.06-1.06L13.56 8l1.97-1.97z"></path></svg>
-        終了
-    </button>
-</div>
-
-<table id="playlist" class="table table-hover">
+<table id="wordsTable" class="table table-hover">
     <thead>
         <tr>
-            <th class="w-20">
+            <th>
                 @Html.DisplayNameFor(model => model.Spelling)
             </th>
-            <th class="w-20">
+            <th>
                 @Html.DisplayNameFor(model => model.Meaning)
             </th>
-            <th class="w-50">
+            <th>
                 @Html.DisplayNameFor(model => model.Text)
             </th>
-            <th class="w-10">
-                <div class="btn-group dropleft">
-                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <svg height="16" class="octicon octicon-kebab-vertical" viewBox="0 0 3 16" version="1.1" width="6" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M0 2.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0zm0 5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0zM1.5 14a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>
-                        </svg>
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#" onclick="toggleEdit(this)">単語の編集</a>
-                        <a class="dropdown-item" href="javascript:document.getElementById('createNewForm').submit();">
-                            <form id="createNewForm" asp-action="Create" asp-controller="Words" method="post">
-                                <input name="albumId" hidden value="@Context.Request.Path.Value.Split("/").Last()" />
-                            </form>
-                            単語の作成
-                        </a>
-                    </div>
-                </div>
-            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -97,182 +38,15 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Meaning)
                 </td>
-                <td>
+                <td class=".cell-text">
                     @Html.DisplayFor(modelItem => item.Text)
                 </td>
                 <td>
-                    <a href="/Words/Edit/@item.Id">
-                        <svg height="16" class="octicon octicon-pencil editIcon" style="display: none" viewBox="0 0 14 16" version="1.1" width="14" aria-hidden="true"><path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"></path></svg>
-                    </a>
+                    @Html.ActionLink("Details", "Details", "Words", new { id = item.Id })
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<div>
-    <a href="/Albums">アルバムリストに戻る</a>
-</div>
 
-<script>
-    function toggleEdit(menu) {
-        const firstEditIcon = document.querySelector(".octicon-pencil");
-        const editIcons = document.querySelectorAll(".octicon-pencil");
-        const editMenu = menu;
-
-        const isInEdit = firstEditIcon.style.display == 'none' ? false : true;
-
-        if (isInEdit) {
-            editIcons.forEach((label) => {
-                label.style.display = "none";
-            });
-            editMenu.textContent = "Edit";
-        }
-        else {
-            editIcons.forEach((label) => {
-                label.style.display = "";
-            });
-            editMenu.textContent = "End Edit";
-        }
-    }
-
-    const playlist = getTableBody('playlist');
-    const startButton = document.getElementById('startButton');
-    const endButton = document.getElementById('endButton');
-    let clickedRow = "";
-
-    playlist.addEventListener('click', (evt) => {
-        console.log("table row clicked");
-
-        if (evt.target.tagName !== "TD" || evt.target.parentElement.tagName !== "TR") {
-            return;
-        }
-
-        //クリックされた行
-        clickedRow = evt.target.parentElement;
-
-        cancelSpeak();
-        
-        //読み上げ
-        playWord(clickedRow);
-        
-    });
-
-    startButton.addEventListener('click', (evt) => {
-        console.log("start button clicked");
-
-        const selectedRow = getSelectedRow();
-
-        let targetRow = null;
-        //選択行がない場合
-        if (selectedRow === null) {
-            //１行目を選択する
-            const playlist = getTableBody('playlist');
-            targetRow = playlist.rows[0];
-        }
-        //選択行がある場合
-        else {
-            targetRow = selectedRow;
-        }
-        //読み上げ
-        playWord(targetRow);
-    });
-    endButton.addEventListener('click', (evt) => {
-        console.log("endButton clicked");
-        cancelSpeak();
-    });
-    let isInSpeaking = null;
-    function cancelSpeak() {
-        console.log("cancelSpeak() called");
-        isInSpeaking = false;
-        speechSynthesis.cancel();
-        console.log('end of cancelSpeak()');
-    }
-
-    //TBody をリターン
-    function getTableBody(idSelector) {
-        console.log("getTableBody() called");
-        return document.getElementById(idSelector).tBodies[0]
-    }
-
-    //選択行
-    function getSelectedRow() {
-        console.log("getSelectedRow() called");
-        const rows = document.querySelectorAll('#playlist tr.table-primary');
-        if (rows.length === 0) {
-            return null;
-        }
-        return Array.from(rows)[0];
-    }
-
-    function setSelectedRow(clickedRow) {
-        console.log("setSelectedRow() called");
-        //選択行を取得
-        const selectedRow = getSelectedRow();
-        if (selectedRow !== null) {
-            //既存の選択行をクリア
-            selectedRow.classList.remove('table-primary');
-        }
-
-        //行を選択
-        clickedRow.classList.add('table-primary');
-    }
-
-    function playWord(row) {
-        console.log("playWord() called");
-        //選択状態の切り替え
-        setSelectedRow(row);
-
-        //クリックされた行の読み上げ文
-        const textToSpeak = row.cells[2].innerText;
-        //読み上げ
-        speak(textToSpeak);
-    }
-
-    const message = new SpeechSynthesisUtterance();
-    message.lang = 'en-US';
-
-    function speak(text) {
-        console.log("speak() called");
-        //message.lang = 'en-US';
-        message.text = text;
-        speechSynthesis.speak(message);
-    }
-
-    message.onstart = (e) => {
-        console.log("message started");
-        console.log("---");
-        isInSpeaking = true;
-    }
-
-    message.onend = (e) => {
-        console.log("message ends");
-
-        //次の行を取得
-        const selectedRow = getSelectedRow();
-
-        //最終行を読み上げた後は、selectedRow そのものが存在しないので、ここで処理を終える。
-        if (selectedRow === null) {
-            return;
-        }
-
-        //最終行の場合
-        if (selectedRow.nextElementSibling === null) {
-            //最終行に到達したので、行の選択状態を解除して処理を終了する。
-            selectedRow.classList.remove('table-primary');
-            return false;
-        }
-        if (!isInSpeaking) {
-            return false;
-        }
-        //選択行の次の行
-        playWord(selectedRow.nextElementSibling);
-    };
-
-    message.onpause = (e) => {
-        console.log("message paused");
-    }
-
-    message.onresume = (e) => {
-        console.log("message resumed");
-    }
-</script>
+<script src="~/js/app.js"></script>

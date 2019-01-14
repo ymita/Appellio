@@ -4,12 +4,19 @@
     ViewData["Title"] = "Edit";
 }
 
-<h4>単語の編集</h4>
+<h1>Edit</h1>
+
+<h4>IWord</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Spelling" class="control-label"></label>
                 <input asp-for="Spelling" class="form-control" />
@@ -26,7 +33,9 @@
                 <span asp-validation-for="Text" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input hidden asp-for="AlbumId" class="form-control" />
+                <label asp-for="AlbumId" class="control-label"></label>
+                <input asp-for="AlbumId" class="form-control" />
+                <span asp-validation-for="AlbumId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -36,7 +45,7 @@
 </div>
 
 <div>
-    <a href="/Albums/@Model.AlbumId">アルバムに戻る</a>
+    <a asp-action="Details" asp-route-id="@Model.Id">Back to Detail</a>
 </div>
 
 @section Scripts {
