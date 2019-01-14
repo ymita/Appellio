@@ -50,8 +50,8 @@ namespace Appellio
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddRazorOptions(options => options.AllowRecompilingViewsOnFileChange = true);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                //.AddRazorOptions(options => options.AllowRecompilingViewsOnFileChange = true);
 
 
             // DI configuration
