@@ -91,7 +91,6 @@ namespace Appellio.Controllers
                 _repository.updateWord(id, spelling, meaning, text);
 
                 return RedirectToAction("Details", "Words", new { id });
-                //return RedirectToAction(nameof(Index));
             }
             catch
             {
@@ -117,8 +116,7 @@ namespace Appellio.Controllers
                 int albumId = int.Parse(collection["AlbumId"][0]);
                 // TODO: Add delete logic here
                 _repository.deleteWordById(id);
-                return RedirectToAction("Details", "Albums", new { id = albumId });
-                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Words", "Albums", new { id = albumId });
             }
             catch
             {

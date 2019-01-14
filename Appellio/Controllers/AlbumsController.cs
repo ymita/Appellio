@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Appellio.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -54,7 +55,7 @@ namespace Appellio.Controllers
             {
                 // TODO: Add insert logic here
                 string title = collection["Title"][0];
-                string owner = collection["Owner"][0];
+                string owner = getOwnerInfo();
                 _repository.createAlbum(title, owner);
 
                 return RedirectToAction(nameof(Index));
@@ -116,6 +117,13 @@ namespace Appellio.Controllers
             {
                 return View();
             }
+        }
+
+        private string getOwnerInfo()
+        {
+            string typeStr = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
+            Claim claim = User.Claims.Where(x => x.Type == typeStr).First();
+            return claim.Value;
         }
     }
 }
