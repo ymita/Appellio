@@ -85,9 +85,7 @@ namespace Appellio.Controllers
                 string title = collection["Title"][0];
                 _repository.updateAlbum(id, title);
 
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", new { id });
             }
             catch
             {
