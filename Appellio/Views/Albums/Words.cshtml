@@ -4,14 +4,13 @@
     ViewData["Title"] = "Words";
 }
 
-<h1>Words</h1>
-
+<h2>@ViewData["AlbumTitle"]</h2>
 <p>
     <a asp-action="Create" asp-controller="Words">Create New</a>
 </p>
 
-<button id="start">再生</button>
-<button id="pause">停止</button>
+<button id="start" class="btn btn-primary">再生</button>
+<button id="pause" class="btn btn-secondary">停止</button>
 
 <table id="wordsTable" class="table table-hover">
     <thead>

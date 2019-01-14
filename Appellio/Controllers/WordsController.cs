@@ -86,7 +86,7 @@ namespace Appellio.Controllers
                 // TODO: Add update logic here
                 _repository.updateWord(id, word);
 
-                return RedirectToAction("Details", "Albums", new { id = word.AlbumId });
+                return RedirectToAction("Details", "Words", new { id = word.AlbumId });
                 //return RedirectToAction(nameof(Index));
             }
             catch

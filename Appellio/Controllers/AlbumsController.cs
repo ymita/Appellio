@@ -27,6 +27,7 @@ namespace Appellio.Controllers
 
         public ActionResult Words(int id)
         {
+            ViewData["AlbumTitle"] = _repository.getAlbumById(id).Title;
             var words = _repository.getWordsByAlbumId(id);
             return View(words);
         }
