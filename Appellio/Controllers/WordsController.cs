@@ -26,12 +26,6 @@ namespace Appellio.Controllers
             //return View();
         }
 
-        //public ActionResult WordsByAlbumId(int id)
-        //{
-        //    var words = _repository.getWordsByAlbumId(id);
-        //    return View(words);
-        //}
-
         // GET: Words/Details/5
         public ActionResult Details(int id)
         {
