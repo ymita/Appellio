@@ -35,7 +35,11 @@ namespace Appellio.Repositories
         public void deleteAlbumById(int id)
         {
             var album = _context.Albums.Find(id);
+            //アルバムの削除
             _context.Albums.Remove(album);
+            //アルバムに紐づく単語の削除
+            var wordsToDelete = _context.Words.Where(w => w.AlbumId == id).ToList();
+            _context.Words.RemoveRange(wordsToDelete);
 
             _context.SaveChanges();
         }
