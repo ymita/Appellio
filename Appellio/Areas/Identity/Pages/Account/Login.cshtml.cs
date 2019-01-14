@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel;
 
 namespace Appellio.Areas.Identity.Pages.Account
 {
@@ -38,10 +39,12 @@ namespace Appellio.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
+            [DisplayName("Eメール")]
             public string Email { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
+            [DisplayName("パスワード")]
             public string Password { get; set; }
 
             [Display(Name = "Remember me?")]
