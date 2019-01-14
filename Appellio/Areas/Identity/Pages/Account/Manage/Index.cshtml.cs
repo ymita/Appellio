@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Encodings.Web;
@@ -27,6 +28,7 @@ namespace Appellio.Areas.Identity.Pages.Account.Manage
             _emailSender = emailSender;
         }
 
+        [DisplayName("ユーザー名")]
         public string Username { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
@@ -41,10 +43,11 @@ namespace Appellio.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [EmailAddress]
+            [DisplayName("Eメール")]
             public string Email { get; set; }
 
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "電話番号")]
             public string PhoneNumber { get; set; }
         }
 
