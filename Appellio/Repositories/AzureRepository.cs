@@ -59,13 +59,13 @@ namespace Appellio.Repositories
             return _context.Words.Find(id);
         }
 
-        public void updateWord(int id, Word word)
+        public void updateWord(int id, string spelling, string meaning, string text)
         {
             var wordToUpdate = _context.Words.Find(id);
 
-            wordToUpdate.Meaning = word.Meaning;
-            wordToUpdate.Spelling = word.Spelling;
-            wordToUpdate.Text = word.Text;
+            wordToUpdate.Spelling = spelling;
+            wordToUpdate.Meaning = meaning;
+            wordToUpdate.Text = text;
 
             _context.SaveChanges();
         }

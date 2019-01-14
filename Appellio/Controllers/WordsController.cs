@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Appellio.Models;
 using Appellio.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -79,14 +78,19 @@ namespace Appellio.Controllers
         // POST: Words/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Word word /*IFormCollection collection*/)
+        public ActionResult Edit(int id, IFormCollection collection)
         {
             try
             {
-                // TODO: Add update logic here
-                _repository.updateWord(id, word);
+                string spelling = collection["Spelling"][0];
+                string meaning = collection["Meaning"][0];
+                string text = collection["Text"][0];
+                int albumId = int.Parse(collection["AlbumId"][0]);
+                
+                //// TODO: Add update logic here
+                _repository.updateWord(id, spelling, meaning, text);
 
-                return RedirectToAction("Details", "Words", new { id = word.AlbumId });
+                return RedirectToAction("Details", "Words", new { id });
                 //return RedirectToAction(nameof(Index));
             }
             catch
