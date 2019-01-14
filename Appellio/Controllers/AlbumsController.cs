@@ -22,7 +22,9 @@ namespace Appellio.Controllers
         // GET: Albums
         public ActionResult Index()
         {
-            var albums = _repository.getAlbums();
+            string owner = getOwnerInfo();
+            var albums = _repository.getAlbums(owner);
+
             return View(albums);
         }
 

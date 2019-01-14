@@ -14,9 +14,9 @@ namespace Appellio.Repositories
             _context = context;
         }
 
-        public IEnumerable<IAlbum> getAlbums()
+        public IEnumerable<IAlbum> getAlbums(string owner)
         {
-            return _context.Albums.ToList();
+            return _context.Albums.Where(album => album.Owner == owner).ToList();
         }
 
         public IAlbum getAlbumById(int id)

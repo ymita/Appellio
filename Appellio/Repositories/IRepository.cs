@@ -8,7 +8,7 @@ namespace Appellio.Repositories
 {
     public interface IRepository
     {
-        IEnumerable<IAlbum> getAlbums();
+        IEnumerable<IAlbum> getAlbums(string owner);
         IAlbum getAlbumById(int id);
         void updateAlbum(int id, string title);
         void deleteAlbumById(int id);
