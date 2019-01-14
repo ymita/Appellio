@@ -6,7 +6,9 @@
 
 <h2>@ViewData["AlbumTitle"]</h2>
 <p>
-    <a asp-action="Create" asp-controller="Words">Create New</a>
+    <a asp-action="Create" asp-controller="Words" asp-route-albumId="@TempData["AlbumId"]">
+        Create New
+    </a>
 </p>
 
 <button id="start" class="btn btn-primary">再生</button>

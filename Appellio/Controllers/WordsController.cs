@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Appellio.Models;
 using Appellio.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -39,9 +40,11 @@ namespace Appellio.Controllers
         }
 
         // GET: Words/Create
-        public ActionResult Create()
+        public ActionResult Create(int albumId)
         {
-            return View();
+            var word = Activator.CreateInstance<Word>();
+            word.AlbumId = albumId;
+            return View(word);
         }
 
         // POST: Words/Create
