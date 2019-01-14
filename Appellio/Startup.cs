@@ -49,7 +49,9 @@ namespace Appellio
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddRazorOptions(options => options.AllowRecompilingViewsOnFileChange = true);
 
 
             // DI configuration
