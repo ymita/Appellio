@@ -46,14 +46,14 @@ namespace Appellio.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
         {
+            string spelling = collection["Spelling"][0];
+            string meaning = collection["Meaning"][0];
+            string text = collection["Text"][0];
+            int albumId = int.Parse(collection["AlbumId"][0]);
+
             try
             {
                 // TODO: Add insert logic here
-                string spelling = collection["Spelling"][0];
-                string meaning = collection["Meaning"][0];
-                string text = collection["Text"][0];
-                int albumId = int.Parse(collection["AlbumId"][0]);
-
                 _repository.createWord(spelling, meaning, text, albumId);
 
                 return RedirectToAction("Words", "Albums", new { id = albumId });
@@ -61,7 +61,9 @@ namespace Appellio.Controllers
             }
             catch
             {
-                return View();
+                //TO DO: エラー発生時に問題なくリダイレクトするか？
+                return RedirectToAction("Words", "Albums", new { id = albumId });
+                //return View();
             }
         }
 

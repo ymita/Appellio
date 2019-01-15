@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Appellio.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Appellio.Repositories
 {
@@ -84,11 +85,27 @@ namespace Appellio.Repositories
 
         public void createWord(string spelling, string meaning, string text, int albumId)
         {
-            var lastWord = _context.Words.Last();
-            int id = lastWord.Id + 1;
-            _context.Words.Add(new Word { Id = id, Spelling = spelling, Meaning = meaning, Text = text, AlbumId = albumId });
+            try
+            {
+                var lastWord = _context.Words.Last();
+                int id = lastWord.Id + 1;
+                _context.Words.Add(new Word { Id = id, Spelling = spelling, Meaning = meaning, Text = text, AlbumId = albumId });
 
-            _context.SaveChanges();
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException dbUpdateEx)
+            {
+                System.Diagnostics.Debug.WriteLine(dbUpdateEx.Message);
+            }
+            catch (InvalidOperationException invalidOperationEx)
+            {
+                System.Diagnostics.Debug.WriteLine(invalidOperationEx.Message);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            
         }
     }
 }
