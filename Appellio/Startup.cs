@@ -51,8 +51,9 @@ namespace Appellio
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-                //.AddRazorOptions(options => options.AllowRecompilingViewsOnFileChange = true);
 
+            //PWA support
+            services.AddProgressiveWebApp();
 
             // DI configuration
             services.AddScoped<IRepository, AzureRepository>();

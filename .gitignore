@@ -30,4 +30,4 @@ launchSettings.json
 BenchmarkDotNet.Artifacts/
 korebuild-lock.txt
 .gradle/
-Appellio/appsettings.json
+appsettings.json
