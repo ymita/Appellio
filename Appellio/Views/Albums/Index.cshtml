@@ -4,32 +4,48 @@
     ViewData["Title"] = "Index";
 }
 
+<style>
+    .dropleft .dropdown-toggle::before {
+        display: none;
+    }
+</style>
+
 <h3>アルバムリスト</h3>
 
-<p>
-    <a asp-action="Create">アルバムの作成</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
-            <th></th>
+            <th>
+                <div class="btn-group dropleft">
+                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                        </svg>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" asp-action="Create">アルバムの作成</a>
+                    </div>
+                </div>
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <a asp-action="Words" asp-route-id="@item.Id">
-                    @Html.DisplayFor(modelItem => item.Title)
-                </a>
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">詳細</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Words" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </a>
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">詳細</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
