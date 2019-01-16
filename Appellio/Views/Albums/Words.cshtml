@@ -5,17 +5,18 @@
 }
 
 <style>
+    .album-title {
+        margin-bottom: 30px;
+    }
+</style>
+
+<style>
     .dropleft .dropdown-toggle::before {
         display: none;
     }
 </style>
 
-<h3>@ViewData["AlbumTitle"]</h3>
-<p>
-    <a asp-action="Create" asp-controller="Words" asp-route-albumId="@TempData["AlbumId"]">
-        単語データの作成
-    </a>
-</p>
+<h3 class="album-title">@ViewData["AlbumTitle"]</h3>
 
 <button id="start" class="btn btn-primary">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
