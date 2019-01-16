@@ -143,7 +143,7 @@ namespace Appellio.Areas.Identity.Pages.Account.Manage
                 "Confirm your email",
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-            StatusMessage = "Verification email sent. Please check your email.";
+            StatusMessage = "認証用のメールを送信しました。メールを確認して下さい。";
             return RedirectToPage();
         }
     }
