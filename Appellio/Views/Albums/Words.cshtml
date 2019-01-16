@@ -4,6 +4,12 @@
     ViewData["Title"] = "Words";
 }
 
+<style>
+    .dropleft .dropdown-toggle::before {
+        display: none;
+    }
+</style>
+
 <h3>@ViewData["AlbumTitle"]</h3>
 <p>
     <a asp-action="Create" asp-controller="Words" asp-route-albumId="@TempData["AlbumId"]">
@@ -38,7 +44,23 @@
             <th>
                 @Html.DisplayNameFor(model => model.Text)
             </th>
-            <th></th>
+            <th>
+                <!-- Default dropleft button -->
+                <div class="btn-group dropleft">
+                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                        </svg>
+                    </button>
+                    <div class="dropdown-menu">
+                        <form asp-action="Create" asp-controller="Words">
+                            <input type="hidden" name="albumId" value="@TempData["AlbumId"]" />
+                            <input type="submit" value="単語データの作成" class="dropdown-item" />
+                        </form>
+                    </div>
+                </div>
+            </th>
         </tr>
     </thead>
     <tbody>

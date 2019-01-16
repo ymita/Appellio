@@ -44,7 +44,7 @@ namespace Appellio.Controllers
         // POST: Words/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult CreateWord(IFormCollection collection)
         {
             string spelling = collection["Spelling"][0];
             string meaning = collection["Meaning"][0];
