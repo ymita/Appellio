@@ -34,7 +34,7 @@
     停止
 </button>
 
-<table id="wordsTable" class="table table-hover">
+<table id="wordsTable" class="table">
     <thead>
         <tr>
             <th>
@@ -68,13 +68,13 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td class="table-cell">
                     @Html.DisplayFor(modelItem => item.Spelling)
                 </td>
-                <td>
+                <td class="table-cell">
                     @Html.DisplayFor(modelItem => item.Meaning)
                 </td>
-                <td class=".cell-text">
+                <td class="table-cell .cell-text">
                     @Html.DisplayFor(modelItem => item.Text)
                 </td>
                 <td>

@@ -5,6 +5,7 @@ let currentRowIndex;
 let message;
 
 let isSpeechCancelled = false;
+let cancelReason = "";
 
 document.addEventListener("DOMContentLoaded", function () {
     //ページ表示時に speechSynthesis をキャンセル
@@ -19,7 +20,6 @@ const startButton = document.getElementById("start");
 const pauseButton = document.getElementById("pause");
 
 startButton.addEventListener("click", (e) => {
-
     isSpeechCancelled = false;
 
     let row = getActiveRow();
@@ -44,13 +44,25 @@ startButton.addEventListener("click", (e) => {
 
 pauseButton.addEventListener("click", (e) => {
     isSpeechCancelled = true;
+    cancelReason = "stopButton";
     speechSynthesis.cancel();
 });
 
 const table = document.getElementById("wordsTable");
 
 table.addEventListener("click", (evt) => {
-    console.log("table click");
+    if (evt.target.classList.contains("table-cell") === false) {
+        return;
+    }
+    if (evt.target.classList.contains("table-cell")) {
+        Array.from(table.rows).forEach(row => { row.classList.remove("active-row"); });
+        evt.target.parentNode.classList.add("active-row");
+
+        isSpeechCancelled = true;
+        cancelReason = "otherRow";
+        speechSynthesis.cancel();
+    }
+
     //if (
     //    evt.target.tagName === "TD"
     //    &&
@@ -76,12 +88,10 @@ table.addEventListener("click", (evt) => {
 });
 
 function findText(row) {
-    console.log("----- findText(row)", row);
     return row.getElementsByClassName(".cell-text").item(0).innerText;
 }
 
 function getActiveRow() {
-    console.log("----- getActiveRow()");
     var activeRows = table.getElementsByClassName("table-primary");
     if (activeRows.length === 0) {
         return null;
@@ -90,8 +100,6 @@ function getActiveRow() {
 }
 
 function setActiveRow(currentRowIndex) {
-    console.log("----- setActiveRow(currentRowIndex)");
-
     //既存のアクティブ行スタイルをクリア
     var activeRow = getActiveRow();
 
@@ -99,22 +107,19 @@ function setActiveRow(currentRowIndex) {
         //Array.from(activeRows).forEach(row => row.classList.remove("table-primary"));
         activeRow.classList.remove("table-primary");
     }
-    
+
     //新たにアクティブ行スタイルを設定
     const row = table.rows.item(currentRowIndex);
     row.classList.add('table-primary');
 }
 
 function removeActiveRow() {
-    console.log("----- removeActiveRow()");
     //既存のアクティブ行スタイルをクリア
     var activeRows = table.getElementsByClassName("table-primary");
     Array.from(activeRows).forEach(row => row.classList.remove("table-primary"));
 }
 
 function isNextRow(currentRowIndex) {
-
-    console.log("----- isNextRow(currentRowIndex)");
 
     //読み上げ対象行インデックスを更新
     const nextRowIndex = currentRowIndex + 1;
@@ -131,7 +136,6 @@ function isNextRow(currentRowIndex) {
 }
 
 function readText(text) {
-    console.log("----- readText(text)", text);
     message = new SpeechSynthesisUtterance();
     message.onstart = readStarted;
     message.onend = readEnded;
@@ -141,25 +145,39 @@ function readText(text) {
 }
 
 function readStarted(evt) {
-    console.log("----- readStarted");
+
 }
 
 function readEnded(evt) {
-    console.log("----- read ended", evt);
-
+    
     if (isSpeechCancelled === true) {
-        console.log("----- readEnded: isSpeechCancelled");
         //isSpeechCancelled の値を false に戻す（初期化）
         isSpeechCancelled = false;
-        return;
-    }
 
+        if (cancelReason === "otherRow") {
+            //他の行がクリックされたことにより読み上げがキャンセルされた場合、新しいアクティブ行を読み上げる
+            setTimeout(() => {
+                const row = document.getElementsByClassName("active-row").item(0);
+
+                //クリックされた行を読み上げ対象行インデックスに設定する。
+                currentRowIndex = row.rowIndex;
+                //アクティブ行スタイルの更新
+                setActiveRow(currentRowIndex);
+                //読み上げ対象セルを取得
+                const cell = findText(row);
+                //読み上げ
+                readText(cell);
+            }, 400);
+        }
+        return false;
+    }
+    cancelReason = "";
     //isSpeechCancelled の値を false に戻す（初期化）
     isSpeechCancelled = false;
 
     //次の行が存在すれば、次の行の読み上げを実施する。
     if (isNextRow(currentRowIndex)) {
-        console.log("----- if (isNextRow(currentRowIndex))");
+
         //読み上げ対象行インデックスの更新
         currentRowIndex = currentRowIndex + 1;
 
@@ -176,9 +194,7 @@ function readEnded(evt) {
         readText(cell);
     }
     else {
-        console.log("----- else");
         //次の行が存在しなければ、処理を終了する。
-        console.log("----- process ends");
 
         //既存のアクティブ行スタイルは削除する。
         removeActiveRow();
