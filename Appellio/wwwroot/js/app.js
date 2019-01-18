@@ -140,10 +140,8 @@ function readText(text) {
     speechSynthesis.speak(message);
 }
 
-let isInSpeech = false;
 function readStarted(evt) {
     console.log("----- readStarted");
-    isInSpeech = true;
 }
 
 function readEnded(evt) {
