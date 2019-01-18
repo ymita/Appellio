@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -30,6 +31,7 @@ namespace Appellio.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
+            [DisplayName("メールアドレス")]
             public string Email { get; set; }
         }
 
