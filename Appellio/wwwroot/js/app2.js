@@ -1,11 +1,7 @@
-﻿// 読み上げ対象行インデックス(starting from 1)
-let currentRowIndex;
-
-// 読み上げメッセージ
+﻿// 読み上げメッセージ
 let message;
 
 let isSpeechCancelled = false;
-let cancelReason = "";
 
 document.addEventListener("DOMContentLoaded", function () {
     //ページ表示時に speechSynthesis をキャンセル
@@ -14,8 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $('#exampleModalCenter').on('shown.bs.modal', function (e) {
         var isAutoplay = document.getElementById('isAutoplay').checked;
         if (isAutoplay) {
-            play();
-
+            //play();
             togglePlayStopButtons(false);
         } else {
             togglePlayStopButtons(true);
@@ -31,7 +26,7 @@ window.addEventListener("beforeunload", function () {
     speechSynthesis.cancel();
 });
 
-const table = document.getElementById("wordsTable");
+//const table = document.getElementById("wordsTable");
 
 message = new SpeechSynthesisUtterance();
 message.onend = readEnded;
@@ -56,19 +51,22 @@ function readEnded(evt) {
     play();
 }
 
-table.addEventListener('click', function (evt) {
+//table.addEventListener('click', onCellClicked);
+//table.addEventListener('ontouchend', onCellClicked, true);
 
-    // 詳細リンクをクリックすると、オーバーレイは表示しない
-    if (evt.target.tagName !== 'TD') {
-        return;
-    }
+//function onCellClicked(evt) {
+//    alert();
+//    // 詳細リンクをクリックすると、オーバーレイは表示しない
+//    //if (evt.target.tagName !== 'TD') {
+//    //    return;
+//    //}
 
-    // 単語を取得
-    var id = +evt.target.parentElement.dataset.id;
-    renderWord(id);
+//    // 単語を取得
+//    var id = +evt.target.parentElement.dataset.id;
+//    renderWord(id);
 
-    $('#exampleModalCenter').modal('show');
-});
+//    $('#exampleModalCenter').modal('show');
+//}
 
 function next() {
     stop();
@@ -104,12 +102,31 @@ function renderWord(id) {
     document.getElementById('spelling').textContent = word.spelling;
     document.getElementById('meaning').textContent = word.meaning;
     document.getElementById('text').textContent = word.text;
+    document.getElementById('textMeaning').textContent = word.textMeaning;
 }
 
 function play() {
     togglePlayStopButtons(false);
     var text = document.getElementById('text').textContent;
-    readText(text);
+    setTimeout(function () {
+        readText(text);
+    }, 300);
+}
+
+function playButtonClicked(id) {
+    //renderWord(id);
+    //var text = document.getElementById('text').textContent;
+    //$('#exampleModalCenter').modal('show');
+    ////document.getElementById('playButton').style.display = 'none';
+    ////document.getElementById('stopButton').style.display = '';
+    //readText(text);
+
+    renderWord(id);
+
+    $('#exampleModalCenter').modal('show');
+    setTimeout(function () {
+        play();
+    }, 200);
 }
 
 function stop() {

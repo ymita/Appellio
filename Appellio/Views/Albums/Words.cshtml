@@ -52,7 +52,6 @@
         font-size: 0.9rem;
     }
 </style>
-
 <h3 class="album-title">@ViewData["AlbumTitle"]</h3>
 
 @*<button id="start" class="btn btn-primary">
@@ -77,16 +76,14 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Spelling)
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Meaning)
+                @Html.DisplayNameFor(model => model.Spelling)/@Html.DisplayNameFor(model => model.Meaning)
             </th>
+
             <th>
-                @Html.DisplayNameFor(model => model.Text)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TextMeaning)
+                @Html.DisplayNameFor(model => model.Text)/@Html.DisplayNameFor(model => model.TextMeaning)
             </th>
             <th>
                 <div class="btn-group dropleft">
@@ -110,17 +107,25 @@
         @foreach (var item in Model)
         {
         <tr data-id="@item.Id">
-            <td class="table-cell">
-                @Html.DisplayFor(modelItem => item.Spelling)
+            <td>
+                <button type="button"
+                        class="btn btn-light btn-circle btn-circle-sm m-1"
+                        style="cursor: pointer;"
+                        onclick="playButtonClicked(@item.Id)">
+
+                    <i class="material-icons">play_arrow</i>
+
+                    @*style="cursor: pointer;"
+                    ontouchstart="playButtonClicked(@item.Id)"*@
+                </button>
             </td>
-            <td class="table-cell">
-                @Html.DisplayFor(modelItem => item.Meaning)
+            <td>
+                <div>@Html.DisplayFor(modelItem => item.Spelling)</div>
+                <div>@Html.DisplayFor(modelItem => item.Meaning)</div>
             </td>
-            <td class="table-cell .cell-text">
-                @Html.DisplayFor(modelItem => item.Text)
-            </td>
-            <td class="table-cell .cell-text">
-                @Html.DisplayFor(modelItem => item.TextMeaning)
+            <td>
+                <div>@Html.DisplayFor(modelItem => item.Text)</div>
+                <div>@Html.DisplayFor(modelItem => item.TextMeaning)</div>
             </td>
             <td>
                 @Html.ActionLink("詳細", "Details", "Words", new { id = item.Id })
@@ -129,12 +134,12 @@
         }
     </tbody>
 </table>
-
 <div>
     <a asp-action="Index" asp-controller="Albums">アルバムリストに戻る</a>
 </div>
-
-<script src="~/js/app.js"></script>
+@section Scripts {
+    <script src="~/js/app2.js"></script>
+}
 
 <script>
     var words = @Html.Raw(Json.Serialize(Model));
@@ -166,6 +171,10 @@
                     <div><i class="material-icons">notes</i></div>
                     <div id="text"></div>
                 </div>
+                <div class="modal-body-item">
+                    <div><i class="material-icons">translate</i></div>
+                    <div id="textMeaning"></div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button id="prevButton" type="button"
@@ -184,7 +193,7 @@
                     <i class="material-icons">pause</i>
                 </button>
                 <button id="nextButton" type="button"
-                        class="btn btn-light btn-circle btn-circle-sm m-1" 
+                        class="btn btn-light btn-circle btn-circle-sm m-1"
                         onclick="next()">
                     <i class="material-icons">chevron_right</i>
                 </button>
