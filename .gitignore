@@ -31,4 +31,3 @@ BenchmarkDotNet.Artifacts/
 korebuild-lock.txt
 .gradle/
 appsettings.json
-Appellio/appsettings.json
