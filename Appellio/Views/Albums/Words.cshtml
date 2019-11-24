@@ -17,55 +17,62 @@
         background-color: transparent;
         padding: 0rem 0rem;
     }
+
     .modal-footer {
         justify-content: center;
     }
+
     .modal-body-item {
         display: flex;
     }
+
     .material-icons {
         margin-right: 1rem;
     }
+
     .btn-circle {
-      width: 45px;
-      height: 45px;
-      line-height: 45px;
-      text-align: center;
-      padding: 0;
-      border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+        text-align: center;
+        padding: 0;
+        border-radius: 50%;
     }
 
-    .btn-circle i {
-      position: relative;
-      top: 4px;
-      margin-right: 0rem;
-    }
+        .btn-circle i {
+            position: relative;
+            top: 4px;
+            margin-right: 0rem;
+        }
 
     .btn-circle-sm {
-      width: 35px;
-      height: 35px;
-      line-height: 35px;
-      font-size: 0.9rem;
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 0.9rem;
     }
 </style>
 
 <h3 class="album-title">@ViewData["AlbumTitle"]</h3>
 
-<button id="start" class="btn btn-primary">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-        <path d="M0 0h24v24H0z" fill="none" />
-        <path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="white" />
-    </svg>
-    再生
-</button>
-<button id="pause" class="btn btn-secondary">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-        <path d="M0 0h24v24H0z" fill="none" />
-        <path d="M9 16h2V8H9v8zm3-14C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm1-4h2V8h-2v8z" fill="white" />
-    </svg>
-    停止
-</button>
-
+@*<button id="start" class="btn btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="white" />
+        </svg>
+        再生
+    </button>
+    <button id="pause" class="btn btn-secondary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M9 16h2V8H9v8zm3-14C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm1-4h2V8h-2v8z" fill="white" />
+        </svg>
+        停止
+    </button>*@
+<div class="custom-control custom-checkbox">
+    <input type="checkbox" class="custom-control-input" id="isAutoplay">
+    <label class="custom-control-label" for="isAutoplay">連続再生</label>
+</div>
 <table id="wordsTable" class="table">
     <thead>
         <tr>
@@ -160,12 +167,12 @@
                         onclick="prev()">
                     <i class="material-icons">chevron_left</i>
                 </button>
-                <button type="button"
+                <button id="playButton" type="button"
                         class="btn btn-light btn-circle btn-circle-sm m-1"
                         onclick="play()">
-                    <i class="material-icons">volume_up</i>
+                    <i class="material-icons">play_arrow</i>
                 </button>
-                <button type="button"
+                <button id="stopButton" type="button"
                         class="btn btn-light btn-circle btn-circle-sm m-1"
                         onclick="stop()">
                     <i class="material-icons">pause</i>

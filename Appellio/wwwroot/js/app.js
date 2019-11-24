@@ -11,8 +11,20 @@ document.addEventListener("DOMContentLoaded", function () {
     //ページ表示時に speechSynthesis をキャンセル
     speechSynthesis.cancel();
 
+    $('#exampleModalCenter').on('shown.bs.modal', function (e) {
+        var isAutoplay = document.getElementById('isAutoplay').checked;
+        if (isAutoplay) {
+            play();
+            document.getElementById('playButton').style.display = 'none';
+            document.getElementById('stopButton').style.display = '';
+        } else {
+            document.getElementById('playButton').style.display = '';
+            document.getElementById('stopButton').style.display = 'none';
+        }
+    });
     $('#exampleModalCenter').on('hide.bs.modal', function (e) {
         stop();
+        document.getElementById('playButton').style.display = '';
     });
 });
 window.addEventListener("beforeunload", function () {
@@ -20,124 +32,124 @@ window.addEventListener("beforeunload", function () {
     speechSynthesis.cancel();
 });
 
-const startButton = document.getElementById("start");
-const pauseButton = document.getElementById("pause");
+//const startButton = document.getElementById("start");
+//const pauseButton = document.getElementById("pause");
 
-startButton.addEventListener("click", (e) => {
-    isSpeechCancelled = false;
+//startButton.addEventListener("click", (e) => {
+//    isSpeechCancelled = false;
 
-    let row = getActiveRow();
+//    let row = getActiveRow();
 
-    if (row === null) {
-        //1行目を読み上げ対象行インデックスに設定する。
-        currentRowIndex = 1;
+//    if (row === null) {
+//        //1行目を読み上げ対象行インデックスに設定する。
+//        currentRowIndex = 1;
 
-        //アクティブ行スタイルの更新
-        setActiveRow(currentRowIndex);
+//        //アクティブ行スタイルの更新
+//        setActiveRow(currentRowIndex);
 
-        //行オブジェクトを取得
-        row = table.rows.item(currentRowIndex);
-    }
+//        //行オブジェクトを取得
+//        row = table.rows.item(currentRowIndex);
+//    }
 
-    //読み上げ対象セルを取得
-    const cell = findText(row);
+//    //読み上げ対象セルを取得
+//    const cell = findText(row);
 
-    //読み上げ
-    readText(cell);
-});
+//    //読み上げ
+//    readText(cell);
+//});
 
-pauseButton.addEventListener("click", (e) => {
-    isSpeechCancelled = true;
-    cancelReason = "stopButton";
-    speechSynthesis.cancel();
-});
+//pauseButton.addEventListener("click", (e) => {
+//    isSpeechCancelled = true;
+//    cancelReason = "stopButton";
+//    speechSynthesis.cancel();
+//});
 
 const table = document.getElementById("wordsTable");
 
-table.addEventListener("click", (evt) => {
-    if (evt.target.classList.contains("table-cell") === false) {
-        return;
-    }
-    if (evt.target.classList.contains("table-cell")) {
-        Array.from(table.rows).forEach(row => { row.classList.remove("active-row"); });
-        evt.target.parentNode.classList.add("active-row");
+//table.addEventListener("click", (evt) => {
+//    if (evt.target.classList.contains("table-cell") === false) {
+//        return;
+//    }
+//    if (evt.target.classList.contains("table-cell")) {
+//        Array.from(table.rows).forEach(row => { row.classList.remove("active-row"); });
+//        evt.target.parentNode.classList.add("active-row");
 
-        isSpeechCancelled = true;
-        cancelReason = "otherRow";
-        speechSynthesis.cancel();
-    }
+//        isSpeechCancelled = true;
+//        cancelReason = "otherRow";
+//        speechSynthesis.cancel();
+//    }
 
-    //if (
-    //    evt.target.tagName === "TD"
-    //    &&
-    //    evt.target.parentElement.tagName === "TR"
-    //) {
-    //    const row = evt.target.parentNode;
+//    //if (
+//    //    evt.target.tagName === "TD"
+//    //    &&
+//    //    evt.target.parentElement.tagName === "TR"
+//    //) {
+//    //    const row = evt.target.parentNode;
 
-    //    isSpeechCancelled = true;
-    //    speechSynthesis.cancel();
+//    //    isSpeechCancelled = true;
+//    //    speechSynthesis.cancel();
 
-    //    //クリックされた行を読み上げ対象行インデックスに設定する。
-    //    currentRowIndex = row.rowIndex;
+//    //    //クリックされた行を読み上げ対象行インデックスに設定する。
+//    //    currentRowIndex = row.rowIndex;
 
-    //    //アクティブ行スタイルの更新
-    //    setActiveRow(currentRowIndex);
+//    //    //アクティブ行スタイルの更新
+//    //    setActiveRow(currentRowIndex);
 
-    //    //読み上げ対象セルを取得
-    //    const cell = findText(row);
+//    //    //読み上げ対象セルを取得
+//    //    const cell = findText(row);
 
-    //    //読み上げ
-    //    readText(cell);
-    //}
-});
+//    //    //読み上げ
+//    //    readText(cell);
+//    //}
+//});
 
-function findText(row) {
-    return row.getElementsByClassName(".cell-text").item(0).innerText;
-}
+//function findText(row) {
+//    return row.getElementsByClassName(".cell-text").item(0).innerText;
+//}
 
-function getActiveRow() {
-    var activeRows = table.getElementsByClassName("table-primary");
-    if (activeRows.length === 0) {
-        return null;
-    }
-    return table.getElementsByClassName("table-primary")[0];
-}
+//function getActiveRow() {
+//    var activeRows = table.getElementsByClassName("table-primary");
+//    if (activeRows.length === 0) {
+//        return null;
+//    }
+//    return table.getElementsByClassName("table-primary")[0];
+//}
 
-function setActiveRow(currentRowIndex) {
-    //既存のアクティブ行スタイルをクリア
-    var activeRow = getActiveRow();
+//function setActiveRow(currentRowIndex) {
+//    //既存のアクティブ行スタイルをクリア
+//    var activeRow = getActiveRow();
 
-    if (activeRow !== null) {
-        //Array.from(activeRows).forEach(row => row.classList.remove("table-primary"));
-        activeRow.classList.remove("table-primary");
-    }
+//    if (activeRow !== null) {
+//        //Array.from(activeRows).forEach(row => row.classList.remove("table-primary"));
+//        activeRow.classList.remove("table-primary");
+//    }
 
-    //新たにアクティブ行スタイルを設定
-    const row = table.rows.item(currentRowIndex);
-    row.classList.add('table-primary');
-}
+//    //新たにアクティブ行スタイルを設定
+//    const row = table.rows.item(currentRowIndex);
+//    row.classList.add('table-primary');
+//}
 
-function removeActiveRow() {
-    //既存のアクティブ行スタイルをクリア
-    var activeRows = table.getElementsByClassName("table-primary");
-    Array.from(activeRows).forEach(row => row.classList.remove("table-primary"));
-}
+//function removeActiveRow() {
+//    //既存のアクティブ行スタイルをクリア
+//    var activeRows = table.getElementsByClassName("table-primary");
+//    Array.from(activeRows).forEach(row => row.classList.remove("table-primary"));
+//}
 
-function isNextRow(currentRowIndex) {
+//function isNextRow(currentRowIndex) {
 
-    //読み上げ対象行インデックスを更新
-    const nextRowIndex = currentRowIndex + 1;
+//    //読み上げ対象行インデックスを更新
+//    const nextRowIndex = currentRowIndex + 1;
 
-    //読み上げ対象行インデックスから行オブジェクトを取得
-    const nextRow = table.rows.item(nextRowIndex);
+//    //読み上げ対象行インデックスから行オブジェクトを取得
+//    const nextRow = table.rows.item(nextRowIndex);
 
-    if (nextRow !== null) {
-        return true;
-    }
-    else {
-        return false;
-    }
-}
+//    if (nextRow !== null) {
+//        return true;
+//    }
+//    else {
+//        return false;
+//    }
+//}
 
 message = new SpeechSynthesisUtterance();
 //message.onstart = readStarted;
@@ -155,6 +167,12 @@ function readText(text) {
 
 function readEnded(evt) {
     if (isSpeechCancelled) {
+        return;
+    }
+    document.getElementById('playButton').style.display = '';
+    document.getElementById('stopButton').style.display = 'none';
+    var isAutoplay = document.getElementById('isAutoplay').checked;
+    if (!isAutoplay) {
         return;
     }
     isSpeechCancelled = false;
@@ -262,15 +280,15 @@ function renderWord(id) {
 }
 
 function play() {
+    document.getElementById('playButton').style.display = 'none';
+    document.getElementById('stopButton').style.display = '';
     var text = document.getElementById('text').textContent;
     readText(text);
 }
 
 function stop() {
+    document.getElementById('playButton').style.display = '';
+    document.getElementById('stopButton').style.display = 'none';
     isSpeechCancelled = true;
     speechSynthesis.cancel();
 }
-
-window.onload = function () {
-    
-};
