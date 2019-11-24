@@ -71,6 +71,7 @@ table.addEventListener('click', function (evt) {
 });
 
 function next() {
+    stop();
     var id = +document.getElementById('id').value;
     var word = words.find(x => x.id === id);
     var wordIndex = words.indexOf(word);
@@ -84,6 +85,7 @@ function next() {
 }
 
 function prev() {
+    stop();
     var id = +document.getElementById('id').value;
     var word = words.find(x => x.id === id);
     var wordIndex = words.indexOf(word);
@@ -123,5 +125,13 @@ function togglePlayStopButtons(showPlayButton) {
     } else {
         document.getElementById('playButton').style.display = 'none';
         document.getElementById('stopButton').style.display = '';
+    }
+    var isAutoplay = document.getElementById('isAutoplay').checked;
+    if (isAutoplay) {
+        document.getElementById('prevButton').style.display = 'none';
+        document.getElementById('nextButton').style.display = 'none';
+    } else {
+        document.getElementById('prevButton').style.display = '';
+        document.getElementById('nextButton').style.display = '';
     }
 }

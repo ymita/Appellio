@@ -162,7 +162,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button"
+                <button id="prevButton" type="button"
                         class="btn btn-light btn-circle btn-circle-sm m-1"
                         onclick="prev()">
                     <i class="material-icons">chevron_left</i>
@@ -177,7 +177,11 @@
                         onclick="stop()">
                     <i class="material-icons">pause</i>
                 </button>
-                <button type="button" class="btn btn-light btn-circle btn-circle-sm m-1" onclick="next()"><i class="material-icons">chevron_right</i></button>
+                <button id="nextButton" type="button"
+                        class="btn btn-light btn-circle btn-circle-sm m-1" 
+                        onclick="next()">
+                    <i class="material-icons">chevron_right</i>
+                </button>
             </div>
         </div>
     </div>
