@@ -16,17 +16,20 @@
             </div>
             <div class="form-group">
                 <label asp-for="Spelling" class="control-label"></label>
-                <input asp-for="Spelling" class="form-control" />
+                <input asp-for="Spelling" class="form-control" data-val="true"
+                       data-val-required="スペルを入力して下さい。"/>
                 <span asp-validation-for="Spelling" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Meaning" class="control-label"></label>
-                <input asp-for="Meaning" class="form-control" />
+                <input asp-for="Meaning" class="form-control" data-val="true"
+                       data-val-required="意味を入力して下さい。"/>
                 <span asp-validation-for="Meaning" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Text" class="control-label"></label>
-                <input asp-for="Text" class="form-control" />
+                <input asp-for="Text" class="form-control" data-val="true"
+                       data-val-required="例文を入力して下さい。"/>
                 <span asp-validation-for="Text" class="text-danger"></span>
             </div>
             <div class="form-group">
