@@ -17,18 +17,13 @@ document.addEventListener("DOMContentLoaded", function () {
             play();
 
             togglePlayStopButtons(false);
-            //document.getElementById('playButton').style.display = 'none';
-            //document.getElementById('stopButton').style.display = '';
         } else {
             togglePlayStopButtons(true);
-            //document.getElementById('playButton').style.display = '';
-            //document.getElementById('stopButton').style.display = 'none';
         }
     });
     $('#exampleModalCenter').on('hide.bs.modal', function (e) {
         stop();
         togglePlayStopButtons(true);
-        //document.getElementById('playButton').style.display = '';
     });
 });
 window.addEventListener("beforeunload", function () {
@@ -52,8 +47,6 @@ function readEnded(evt) {
         return;
     }
     togglePlayStopButtons(true);
-    //document.getElementById('playButton').style.display = '';
-    //document.getElementById('stopButton').style.display = 'none';
     var isAutoplay = document.getElementById('isAutoplay').checked;
     if (!isAutoplay) {
         return;
@@ -113,16 +106,12 @@ function renderWord(id) {
 
 function play() {
     togglePlayStopButtons(false);
-    //document.getElementById('playButton').style.display = 'none';
-    //document.getElementById('stopButton').style.display = '';
     var text = document.getElementById('text').textContent;
     readText(text);
 }
 
 function stop() {
     togglePlayStopButtons(true);
-    //document.getElementById('playButton').style.display = '';
-    //document.getElementById('stopButton').style.display = 'none';
     isSpeechCancelled = true;
     speechSynthesis.cancel();
 }
