@@ -28,15 +28,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Text" class="control-label"></label>
-                @*<input asp-for="Text" class="form-control" data-val="true"
-                       data-val-required="例文を入力して下さい。" />*@
                 <textarea asp-for="Text" class="form-control" rows="3" data-val="true"
                        data-val-required="例文を入力して下さい。"></textarea>
                 <span asp-validation-for="Text" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TextMeaning" class="control-label"></label>
-                @*<input asp-for="TextMeaning" class="form-control" />*@
                 <textarea asp-for="TextMeaning" class="form-control" rows="3" data-val="true"
                           data-val-required="例文を入力して下さい。"></textarea>
                 <span asp-validation-for="TextMeaning" class="text-danger"></span>
