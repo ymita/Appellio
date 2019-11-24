@@ -15,6 +15,8 @@ namespace Appellio.Models
         string Meaning { get; set; }
         [DisplayName("例文")]
         string Text { get; set; }
+        [DisplayName("訳")]
+        string TextMeaning { get; set; }
         int AlbumId { get; set; }
     }
 }

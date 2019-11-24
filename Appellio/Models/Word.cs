@@ -20,7 +20,8 @@ namespace Appellio.Models
 
         [Required]
         public string Text { get; set; }
-
+        [Required]
+        public string TextMeaning { get; set; }
         [Required]
         public int AlbumId { get; set; }
     }

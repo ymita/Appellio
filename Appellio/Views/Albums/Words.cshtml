@@ -86,6 +86,9 @@
                 @Html.DisplayNameFor(model => model.Text)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.TextMeaning)
+            </th>
+            <th>
                 <div class="btn-group dropleft">
                     <button type="button" class="btn menu dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -106,20 +109,23 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr data-id="@item.Id">
-                <td class="table-cell">
-                    @Html.DisplayFor(modelItem => item.Spelling)
-                </td>
-                <td class="table-cell">
-                    @Html.DisplayFor(modelItem => item.Meaning)
-                </td>
-                <td class="table-cell .cell-text">
-                    @Html.DisplayFor(modelItem => item.Text)
-                </td>
-                <td>
-                    @Html.ActionLink("詳細", "Details", "Words", new { id = item.Id })
-                </td>
-            </tr>
+        <tr data-id="@item.Id">
+            <td class="table-cell">
+                @Html.DisplayFor(modelItem => item.Spelling)
+            </td>
+            <td class="table-cell">
+                @Html.DisplayFor(modelItem => item.Meaning)
+            </td>
+            <td class="table-cell .cell-text">
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td class="table-cell .cell-text">
+                @Html.DisplayFor(modelItem => item.TextMeaning)
+            </td>
+            <td>
+                @Html.ActionLink("詳細", "Details", "Words", new { id = item.Id })
+            </td>
+        </tr>
         }
     </tbody>
 </table>

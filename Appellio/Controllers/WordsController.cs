@@ -49,12 +49,13 @@ namespace Appellio.Controllers
             string spelling = collection["Spelling"][0];
             string meaning = collection["Meaning"][0];
             string text = collection["Text"][0];
+            string textMeaning = collection["TextMeaning"][0];
             int albumId = int.Parse(collection["AlbumId"][0]);
 
             try
             {
                 // TODO: Add insert logic here
-                _repository.createWord(spelling, meaning, text, albumId);
+                _repository.createWord(spelling, meaning, text, textMeaning, albumId);
 
                 return RedirectToAction("Words", "Albums", new { id = albumId });
                 //return RedirectToAction(nameof(Index));
@@ -84,10 +85,11 @@ namespace Appellio.Controllers
                 string spelling = collection["Spelling"][0];
                 string meaning = collection["Meaning"][0];
                 string text = collection["Text"][0];
+                string textMeaning = collection["TextMeaning"][0];
                 int albumId = int.Parse(collection["AlbumId"][0]);
                 
                 //// TODO: Add update logic here
-                _repository.updateWord(id, spelling, meaning, text);
+                _repository.updateWord(id, spelling, meaning, text, textMeaning);
 
                 return RedirectToAction("Details", "Words", new { id });
             }

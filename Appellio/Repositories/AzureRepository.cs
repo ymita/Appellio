@@ -64,13 +64,14 @@ namespace Appellio.Repositories
             return _context.Words.Find(id);
         }
 
-        public void updateWord(int id, string spelling, string meaning, string text)
+        public void updateWord(int id, string spelling, string meaning, string text, string textMeaning)
         {
             var wordToUpdate = _context.Words.Find(id);
 
             wordToUpdate.Spelling = spelling;
             wordToUpdate.Meaning = meaning;
             wordToUpdate.Text = text;
+            wordToUpdate.TextMeaning = textMeaning;
 
             _context.SaveChanges();
         }
@@ -83,13 +84,13 @@ namespace Appellio.Repositories
             _context.SaveChanges();
         }
 
-        public void createWord(string spelling, string meaning, string text, int albumId)
+        public void createWord(string spelling, string meaning, string text, string textMeaning, int albumId)
         {
             try
             {
                 var lastWord = _context.Words.Last();
                 int id = lastWord.Id + 1;
-                _context.Words.Add(new Word { Id = id, Spelling = spelling, Meaning = meaning, Text = text, AlbumId = albumId });
+                _context.Words.Add(new Word { Id = id, Spelling = spelling, Meaning = meaning, Text = text, TextMeaning = textMeaning, AlbumId = albumId });
 
                 _context.SaveChanges();
             }

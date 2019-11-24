@@ -16,8 +16,8 @@ namespace Appellio.Repositories
 
         IEnumerable<IWord> getWordsByAlbumId(int albumId);
         IWord getWordById (int id);
-        void updateWord(int id, string spelling, string meaning, string text);
+        void updateWord(int id, string spelling, string meaning, string text, string textMeaning);
         void deleteWordById(int id);
-        void createWord(string spelling, string meaning, string text, int albumId);
+        void createWord(string spelling, string meaning, string text, string textMeaning, int albumId);
     }
 }
