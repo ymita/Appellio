@@ -8,12 +8,44 @@
     .album-title {
         margin-bottom: 30px;
     }
+
     .dropleft .dropdown-toggle::before {
         display: none;
     }
+
     .btn.menu.dropdown-toggle {
         background-color: transparent;
         padding: 0rem 0rem;
+    }
+    .modal-footer {
+        justify-content: center;
+    }
+    .modal-body-item {
+        display: flex;
+    }
+    .material-icons {
+        margin-right: 1rem;
+    }
+    .btn-circle {
+      width: 45px;
+      height: 45px;
+      line-height: 45px;
+      text-align: center;
+      padding: 0;
+      border-radius: 50%;
+    }
+
+    .btn-circle i {
+      position: relative;
+      top: 4px;
+      margin-right: 0rem;
+    }
+
+    .btn-circle-sm {
+      width: 35px;
+      height: 35px;
+      line-height: 35px;
+      font-size: 0.9rem;
     }
 </style>
 
@@ -67,7 +99,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr data-id="@item.Id">
                 <td class="table-cell">
                     @Html.DisplayFor(modelItem => item.Spelling)
                 </td>
@@ -86,7 +118,60 @@
 </table>
 
 <div>
-    <a asp-action="Index" asp-controller="Albums" >アルバムリストに戻る</a>
+    <a asp-action="Index" asp-controller="Albums">アルバムリストに戻る</a>
 </div>
 
 <script src="~/js/app.js"></script>
+
+<script>
+    var words = @Html.Raw(Json.Serialize(Model));
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input id="id" type="hidden" value="" />
+                <i class="material-icons">
+                    spellcheck
+                </i>
+                <h5 class="modal-title" id="spelling">
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body-item">
+                    <div>
+                        <i class="material-icons">language</i>
+                    </div>
+                    <div id="meaning"></div>
+                </div>
+                <div class="modal-body-item">
+                    <div><i class="material-icons">notes</i></div>
+                    <div id="text"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-light btn-circle btn-circle-sm m-1"
+                        onclick="prev()">
+                    <i class="material-icons">chevron_left</i>
+                </button>
+                <button type="button"
+                        class="btn btn-light btn-circle btn-circle-sm m-1"
+                        onclick="play()">
+                    <i class="material-icons">volume_up</i>
+                </button>
+                <button type="button"
+                        class="btn btn-light btn-circle btn-circle-sm m-1"
+                        onclick="stop()">
+                    <i class="material-icons">pause</i>
+                </button>
+                <button type="button" class="btn btn-light btn-circle btn-circle-sm m-1" onclick="next()"><i class="material-icons">chevron_right</i></button>
+            </div>
+        </div>
+    </div>
+</div>

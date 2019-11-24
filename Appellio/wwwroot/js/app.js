@@ -10,6 +10,10 @@ let cancelReason = "";
 document.addEventListener("DOMContentLoaded", function () {
     //ページ表示時に speechSynthesis をキャンセル
     speechSynthesis.cancel();
+
+    $('#exampleModalCenter').on('hide.bs.modal', function (e) {
+        stop();
+    });
 });
 window.addEventListener("beforeunload", function () {
     //ページ離脱時に speechSynthesis をキャンセル
@@ -135,70 +139,138 @@ function isNextRow(currentRowIndex) {
     }
 }
 
+message = new SpeechSynthesisUtterance();
+//message.onstart = readStarted;
+message.onend = readEnded;
+message.lang = 'en-US';
 function readText(text) {
-    message = new SpeechSynthesisUtterance();
-    message.onstart = readStarted;
-    message.onend = readEnded;
-    message.lang = 'en-US';
+    isSpeechCancelled = false;
     message.text = text;
     speechSynthesis.speak(message);
 }
 
-function readStarted(evt) {
+//function readStarted(evt) {
 
-}
+//}
 
 function readEnded(evt) {
-    
-    if (isSpeechCancelled === true) {
-        //isSpeechCancelled の値を false に戻す（初期化）
-        isSpeechCancelled = false;
-
-        if (cancelReason === "otherRow") {
-            //他の行がクリックされたことにより読み上げがキャンセルされた場合、新しいアクティブ行を読み上げる
-            setTimeout(() => {
-                const row = document.getElementsByClassName("active-row").item(0);
-
-                //クリックされた行を読み上げ対象行インデックスに設定する。
-                currentRowIndex = row.rowIndex;
-                //アクティブ行スタイルの更新
-                setActiveRow(currentRowIndex);
-                //読み上げ対象セルを取得
-                const cell = findText(row);
-                //読み上げ
-                readText(cell);
-            }, 400);
-        }
-        return false;
+    if (isSpeechCancelled) {
+        return;
     }
-    cancelReason = "";
-    //isSpeechCancelled の値を false に戻す（初期化）
     isSpeechCancelled = false;
+    next();
+    play();
+    //if (isSpeechCancelled === true) {
+    //    //isSpeechCancelled の値を false に戻す（初期化）
+    //    isSpeechCancelled = false;
 
-    //次の行が存在すれば、次の行の読み上げを実施する。
-    if (isNextRow(currentRowIndex)) {
+    //    if (cancelReason === "otherRow") {
+    //        //他の行がクリックされたことにより読み上げがキャンセルされた場合、新しいアクティブ行を読み上げる
+    //        setTimeout(() => {
+    //            const row = document.getElementsByClassName("active-row").item(0);
 
-        //読み上げ対象行インデックスの更新
-        currentRowIndex = currentRowIndex + 1;
+    //            //クリックされた行を読み上げ対象行インデックスに設定する。
+    //            currentRowIndex = row.rowIndex;
+    //            //アクティブ行スタイルの更新
+    //            setActiveRow(currentRowIndex);
+    //            //読み上げ対象セルを取得
+    //            const cell = findText(row);
+    //            //読み上げ
+    //            readText(cell);
+    //        }, 400);
+    //    }
+    //    return false;
+    //}
+    //cancelReason = "";
+    ////isSpeechCancelled の値を false に戻す（初期化）
+    //isSpeechCancelled = false;
 
-        //行オブジェクトを取得
-        const row = table.rows.item(currentRowIndex);
+    ////次の行が存在すれば、次の行の読み上げを実施する。
+    //if (isNextRow(currentRowIndex)) {
 
-        //アクティブ行スタイルの更新
-        setActiveRow(currentRowIndex);
+    //    //読み上げ対象行インデックスの更新
+    //    currentRowIndex = currentRowIndex + 1;
 
-        //読み上げ対象セルを取得
-        const cell = findText(row);
+    //    //行オブジェクトを取得
+    //    const row = table.rows.item(currentRowIndex);
 
-        //読み上げ
-        readText(cell);
-    }
-    else {
-        //次の行が存在しなければ、処理を終了する。
+    //    //アクティブ行スタイルの更新
+    //    setActiveRow(currentRowIndex);
 
-        //既存のアクティブ行スタイルは削除する。
-        removeActiveRow();
+    //    //読み上げ対象セルを取得
+    //    const cell = findText(row);
 
-        speechSynthesis.cancel();
-    }
+    //    //読み上げ
+    //    readText(cell);
+    //}
+    //else {
+    //    //次の行が存在しなければ、処理を終了する。
+
+    //    //既存のアクティブ行スタイルは削除する。
+    //    removeActiveRow();
+
+    //    speechSynthesis.cancel();
+    //}
 }
+
+table.addEventListener('click', function (evt) {
+
+    // 詳細リンクをクリックすると、オーバーレイは表示しない
+    if (evt.target.tagName !== 'TD') {
+        return;
+    }
+
+    // 単語を取得
+    var id = +evt.target.parentElement.dataset.id;
+    renderWord(id);
+
+    $('#exampleModalCenter').modal('show');
+});
+
+function next() {
+    var id = +document.getElementById('id').value;
+    var word = words.find(x => x.id === id);
+    var wordIndex = words.indexOf(word);
+
+    if (words[wordIndex + 1]) {
+        id = words[wordIndex + 1].id;
+    } else {
+        id = words[0].id;
+    }
+    renderWord(id);
+}
+
+function prev() {
+    var id = +document.getElementById('id').value;
+    var word = words.find(x => x.id === id);
+    var wordIndex = words.indexOf(word);
+
+    if (words[wordIndex - 1]) {
+        id = words[wordIndex - 1].id;
+    } else {
+        id = words[words.length - 1].id;
+    }
+    renderWord(id);
+}
+
+function renderWord(id) {
+    var word = words.find(x => x.id === id);
+    document.getElementById('id').value = word.id;
+    document.getElementById('spelling').textContent = word.spelling;
+    document.getElementById('meaning').textContent = word.meaning;
+    document.getElementById('text').textContent = word.text;
+}
+
+function play() {
+    var text = document.getElementById('text').textContent;
+    readText(text);
+}
+
+function stop() {
+    isSpeechCancelled = true;
+    speechSynthesis.cancel();
+}
+
+window.onload = function () {
+    
+};
